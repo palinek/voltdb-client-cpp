@@ -70,7 +70,7 @@ public:
      */
     template <WireType T>
     ParameterSet& addTypedBytes(const int32_t size, const uint8_t *value)
-    throw (voltdb::ParamMismatchException) {
+     {
         assert(WIRE_TYPE_VARBINARY == T || WIRE_TYPE_STRING == T);
         validateType(T, false);
         if (value) {
@@ -89,7 +89,7 @@ public:
     */
     template <WireType T, typename ItemType>
     ParameterSet& addTypedByteArray(const typename std::vector<ItemType> &vals)
-        throw (voltdb::ParamMismatchException) {
+         {
        assert(WIRE_TYPE_VARBINARY==T || WIRE_TYPE_STRING == T);
        validateType(T, true);
        int32_t totalByteSize = 0;
@@ -115,7 +115,7 @@ public:
      * @return Reference to this parameter set to allow invocation chaining.
      */
     ParameterSet& addBytes(const int32_t size, const uint8_t *value)
-    throw (voltdb::ParamMismatchException) {
+     {
         return addTypedBytes<WIRE_TYPE_VARBINARY>(size, value);
     }
 
@@ -124,7 +124,7 @@ public:
     * @return Reference to this parameter set to allow invocation chaining.
     */
    ParameterSet& addBytes(const std::vector<buffer_t> &vals)
-   throw (voltdb::ParamMismatchException) {
+    {
        return addTypedByteArray<WIRE_TYPE_VARBINARY, buffer_t>(vals);
    }
 
@@ -133,7 +133,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addDecimal(Decimal val) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addDecimal(Decimal val)  {
         validateType(WIRE_TYPE_DECIMAL, false);
         m_buffer.ensureRemaining(static_cast<int32_t>(sizeof(Decimal)) + 1);
         m_buffer.putInt8(WIRE_TYPE_DECIMAL);
@@ -147,7 +147,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addDecimal(const std::vector<Decimal>& vals) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addDecimal(const std::vector<Decimal>& vals)  {
         validateType(WIRE_TYPE_DECIMAL, true);
         m_buffer.ensureRemaining(4 + static_cast<int32_t>(sizeof(Decimal) * vals.size()));
         m_buffer.putInt8(WIRE_TYPE_ARRAY);
@@ -165,7 +165,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addTimestamp(int64_t val) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addTimestamp(int64_t val)  {
         validateType(WIRE_TYPE_TIMESTAMP, false);
         m_buffer.ensureRemaining(9);
         m_buffer.putInt8(WIRE_TYPE_TIMESTAMP);
@@ -179,7 +179,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addTimestamp(const std::vector<int64_t>& vals) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addTimestamp(const std::vector<int64_t>& vals)  {
         validateType(WIRE_TYPE_TIMESTAMP, true);
         m_buffer.ensureRemaining(4 + static_cast<int32_t>(sizeof(int64_t) * vals.size()));
         m_buffer.putInt8(WIRE_TYPE_ARRAY);
@@ -197,7 +197,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addDate(const boost::gregorian::date &date) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addDate(const boost::gregorian::date &date)  {
         validateType(WIRE_TYPE_DATE, false);
         int32_t encodedDate = encodeDate(date);
 
@@ -213,7 +213,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addDate(const std::vector<boost::gregorian::date>& vals) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addDate(const std::vector<boost::gregorian::date>& vals)  {
         validateType(WIRE_TYPE_DATE, true);
         m_buffer.ensureRemaining(4 + static_cast<int32_t>(sizeof(int32_t) * vals.size()));
         m_buffer.putInt8(WIRE_TYPE_ARRAY);
@@ -232,7 +232,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addInt64(int64_t val) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addInt64(int64_t val)  {
         validateType(WIRE_TYPE_BIGINT, false);
         m_buffer.ensureRemaining(9);
         m_buffer.putInt8(WIRE_TYPE_BIGINT);
@@ -246,7 +246,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addInt64(const std::vector<int64_t>& vals) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addInt64(const std::vector<int64_t>& vals)  {
         validateType(WIRE_TYPE_BIGINT, true);
         m_buffer.ensureRemaining(4 + static_cast<int32_t>(sizeof(int64_t) * vals.size()));
         m_buffer.putInt8(WIRE_TYPE_ARRAY);
@@ -264,7 +264,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addInt32(int32_t val) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addInt32(int32_t val)  {
         validateType(WIRE_TYPE_INTEGER, false);
         m_buffer.ensureRemaining(5);
         m_buffer.putInt8(WIRE_TYPE_INTEGER);
@@ -278,7 +278,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addInt32(const std::vector<int32_t>& vals) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addInt32(const std::vector<int32_t>& vals)  {
         validateType(WIRE_TYPE_INTEGER, true);
         m_buffer.ensureRemaining(4 + static_cast<int32_t>(sizeof(int32_t) * vals.size()));
         m_buffer.putInt8(WIRE_TYPE_ARRAY);
@@ -296,7 +296,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addInt16(int16_t val) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addInt16(int16_t val)  {
         validateType(WIRE_TYPE_SMALLINT, false);
         m_buffer.ensureRemaining(3);
         m_buffer.putInt8(WIRE_TYPE_SMALLINT);
@@ -310,7 +310,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addInt16(const std::vector<int16_t>& vals) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addInt16(const std::vector<int16_t>& vals)  {
         validateType(WIRE_TYPE_SMALLINT, true);
         m_buffer.ensureRemaining(4 + static_cast<int32_t>(sizeof(int16_t) * vals.size()));
         m_buffer.putInt8(WIRE_TYPE_ARRAY);
@@ -328,7 +328,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addInt8(int8_t val) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addInt8(int8_t val)  {
         validateType(WIRE_TYPE_TINYINT, false);
         m_buffer.ensureRemaining(2);
         m_buffer.putInt8(WIRE_TYPE_TINYINT);
@@ -342,7 +342,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addInt8(const std::vector<int8_t>& vals) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addInt8(const std::vector<int8_t>& vals)  {
         validateType(WIRE_TYPE_TINYINT, true);
         m_buffer.ensureRemaining(6 + static_cast<int32_t>(sizeof(int8_t) * vals.size()));
         // Convert array of TINYINT to VARBINARY.
@@ -360,7 +360,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addDouble(double val) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addDouble(double val)  {
         validateType(WIRE_TYPE_FLOAT, false);
         m_buffer.ensureRemaining(9);
         m_buffer.putInt8(WIRE_TYPE_FLOAT);
@@ -374,7 +374,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addDouble(const std::vector<double>& vals) throw (voltdb::ParamMismatchException) {
+    ParameterSet& addDouble(const std::vector<double>& vals)  {
         validateType(WIRE_TYPE_FLOAT, true);
         m_buffer.ensureRemaining(2 + static_cast<int32_t>(sizeof(double) * vals.size()));
         m_buffer.putInt8(WIRE_TYPE_ARRAY);
@@ -395,7 +395,7 @@ public:
      * @throws ParamMismatchException Supplied parameter is the wrong type for this position or too many have been set
      * @return Reference to this parameter set to allow invocation chaining.
      */
-    ParameterSet& addNull() throw (voltdb::ParamMismatchException) {
+    ParameterSet& addNull()  {
         if (m_currentParam > m_parameters.size()) {
             throw new ParamMismatchException();
         }
@@ -411,7 +411,7 @@ public:
      * @return Reference to this parameter set to allow invocation chaining.
      */
     ParameterSet& addString(const int32_t size, const char* data)
-    throw (voltdb::ParamMismatchException) {
+     {
         return addTypedBytes<WIRE_TYPE_STRING>(size, (const uint8_t*)data);
     }
 
@@ -421,7 +421,7 @@ public:
      * @return Reference to this parameter set to allow invocation chaining.
      */
     ParameterSet& addString(const std::string& val)
-    throw (voltdb::ParamMismatchException) {
+     {
         return addString(val.size(), val.data());
     }
 
@@ -431,7 +431,7 @@ public:
      * @return Reference to this parameter set to allow invocation chaining.
      */
     ParameterSet& addString(const std::vector<std::string>& vals)
-    throw (voltdb::ParamMismatchException) {
+     {
         return addTypedByteArray<WIRE_TYPE_STRING, std::string>(vals);
         }
 
@@ -441,7 +441,7 @@ public:
     * @return Reference to this parameter set to allow invocation chaining.
     */
     ParameterSet& addString(const std::vector<buffer_t> &vals)
-    throw (voltdb::ParamMismatchException) {
+     {
         return addTypedByteArray<WIRE_TYPE_STRING, buffer_t>(vals);
     }
 
