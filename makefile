@@ -108,7 +108,6 @@ $(KIT_NAME).tar.gz: $(LIB_NAME).a $(LIB_NAME).so
 	@echo 'Building distribution kit'
 	rm -rf $(KIT_NAME)
 	mkdir -p $(KIT_NAME)/include/ttmath
-	mkdir -p $(KIT_NAME)/include/openssl
 	mkdir -p $(KIT_NAME)/$(THIRD_PARTY_DIR)
 
 	cp -R include/ByteBuffer.hpp include/Client.h include/ClientConfig.h \
@@ -120,7 +119,6 @@ $(KIT_NAME).tar.gz: $(LIB_NAME).a $(LIB_NAME).so
                   include/ClientLogger.h include/Distributer.h include/ElasticHashinator.h \
                   include/MurmurHash3.h include/Geography.hpp include/GeographyPoint.hpp $(KIT_NAME)/include/
 	cp -R include/ttmath/*.h $(KIT_NAME)/include/ttmath/
-	cp include/openssl/*.h $(KIT_NAME)/include/openssl/
 
 	cp -R examples $(KIT_NAME)/
 	cp README.md $(KIT_NAME)/
